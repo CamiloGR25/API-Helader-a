@@ -8,4 +8,32 @@ router.post("/helados", (req, res) => {
     helado.save().then((data) => res.json(data)).catch((error) => res.json({ message: error }));//guarda el helado
 });
 
+//consultar helado:
+router.get("/helados", (req, res) => {
+    heladoSchema.find()//traer los datos para mostrarlos
+        .then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+});
+
+//consultar helado con id:
+router.get("/helados/:id", (req, res) => {
+    const { id } = req.params;
+    heladoSchema.findById(id)
+        .then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+});
+
+//modificar helado:
+router.put("/helados/:id", (req, res) => {
+    const { id } = req.params;
+    const { nombre, sabor, material, tipo, costo, marca } = req.body;
+    heladoSchema.updateOne({ _id: id }, { $set: { nombre, sabor, material, tipo, costo, marca } })
+        .then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+});
+
+//eliminar helado:
+router.delete("/helados/:id", (req, res) => {
+    const { id } = req.params;
+    heladoSchema.findByIdAndDelete(id)
+        .then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+})
+
 module.exports = router;
